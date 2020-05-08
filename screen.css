@@ -1,0 +1,148 @@
+@charset "UTF-8";
+body {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #00A1AB;
+  padding: 1rem;
+}
+body h1 {
+  color: #C4F7FA;
+  margin: 0rem auto;
+  margin-top: 4rem;
+}
+body h1 small {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+}
+
+#preload {
+  position: absolute;
+  background-color: #004145;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+}
+#preload:before {
+  width: 100%;
+  display: block;
+  color: #C4F7FA;
+  text-align: center;
+  margin-top: 40vh;
+  content: "One moment, please...";
+}
+
+#main_button {
+  height: 3rem;
+  margin: 1rem auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  color: #C4F7FA;
+  background-color: #004145;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+#main_button:hover {
+  background-color: black;
+}
+#main_button:active, #main_button:focus {
+  outline: none;
+  box-shadow: 0 0 5px 0px #C4F7FA;
+}
+
+#saved_sites {
+  margin: 1rem auto;
+  padding: 0rem;
+  max-width: 600px;
+}
+#saved_sites .site {
+  padding: 0.5rem;
+  background-color: #C4F7FA;
+  display: flex;
+  justify-content: stretch;
+  font-size: 0.8rem;
+}
+#saved_sites .site:nth-child(even) {
+  background-color: #95f1f6;
+}
+#saved_sites .site:first-child {
+  border-radius: 4px 4px 0 0;
+}
+#saved_sites .site:last-child {
+  border-radius: 0 0 4px 4px;
+}
+#saved_sites .site:only-child {
+  border-radius: 4px;
+}
+#saved_sites .site .run {
+  cursor: pointer;
+  flex-grow: 1;
+}
+#saved_sites .site .run .part {
+  text-align: left;
+  overflow: hidden;
+}
+#saved_sites .site .run .part.label {
+  font-weight: bold;
+  color: #00A1AB;
+  font-size: 1.2em;
+}
+#saved_sites .site .run .part.path {
+  color: #666;
+}
+@media (max-width: 600px) {
+  #saved_sites .site .run .part.path {
+    display: none;
+  }
+}
+#saved_sites .remove {
+  text-align: center;
+  float: right;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1.1rem;
+  font-size: 1.2rem;
+  background-color: #db8b40;
+  border-radius: 4px;
+  font-weight: normal;
+  cursor: pointer;
+  color: white;
+}
+#saved_sites .remove:hover {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
+small.tech {
+  color: #00595f;
+}
+small.tech ul {
+  display: flex;
+  margin: 0 auto;
+  text-align: left;
+  list-style-type: disk;
+  justify-content: center;
+  padding: 0px;
+}
+small.tech ul li {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+small.tech ul li:after {
+  content: "·";
+  margin-left: 0.5rem;
+  font-weight: bold;
+}
+small.tech ul li:last-child {
+  margin-right: 0rem;
+}
+small.tech ul li:last-child:after {
+  content: "";
+}
+
+/*# sourceMappingURL=screen.css.map */

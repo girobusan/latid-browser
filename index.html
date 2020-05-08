@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latid browser</title>
+    <script>
+        require('./logic.js');
+    </script>
+    <link rel = "stylesheet" href="screen.css">
+</head>
+<body>
+    <h1>Latid browser<small>BECAUSE WE CAN</small></h1>
+    <div id="saved_sites">
+        <!--will fill later-->
+    </div>
+    <div>
+    <input type="button" id="main_button" value="Choose site directory">
+</div>
+<small class="tech">
+    <ul>
+    <li>Node: <script>document.write(process.versions.node)</script></li>
+    <li>Chrome: <script>document.write(process.versions.chrome)</script></li>
+    <li>Electron <script>document.write(process.versions.electron)</script></li>
+</ul>
+</small>
+</body>
+</html>
