@@ -1,5 +1,6 @@
 {
   "name": "latid-browser",
+  "productName": "Latid browser",
   "version": "1.0.0",
   "description": "test",
   "main": "main.js",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.51",
     "@electron-forge/maker-deb": "^6.0.0-beta.51",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.51",
     "@electron-forge/maker-rpm": "^6.0.0-beta.51",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.51",
     "@electron-forge/maker-zip": "^6.0.0-beta.51",
@@ -26,7 +28,10 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "icons/latid",
+        "platform" : ["darwin" , "linux"]
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
@@ -37,12 +42,20 @@
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
+            "darwin" , "linux"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "platforms": [
             "darwin"
           ]
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "platforms" : ["linux"]
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
