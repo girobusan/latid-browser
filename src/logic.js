@@ -16,7 +16,12 @@ window.localFS = {
   //sevice functions
   var addScript = function (p) {
     let s = document.createElement("script");
+    let old = document.getElementById("latid_site_script");
+    if (old) {
+      old.remove();
+    }
     s.setAttribute("src", p);
+    s.setAttribute("id", "latid_site_script")
     document.body.appendChild(s);
   }
 
@@ -56,7 +61,7 @@ window.localFS = {
   //sites storage
   var store = new function () {
     var s = window.localStorage;
-    this.check = function(title, pth){
+    this.check = function (title, pth) {
       console.log("Checking sites history")
       let k = title + "@" + pth
       if (!s.getItem(k)) {
@@ -86,7 +91,7 @@ window.localFS = {
   var createServer = function (root) {
     console.log("Setting up local FS");
     console.log("Local FS server at", root);
-    
+
     //process.chdir(root);
     window.localFS.root = root; //DEPRECATED --> window.localFS.server.root
     var makepath = function (p) {
@@ -163,7 +168,7 @@ window.localFS = {
   }//it was make server
 
   var loadSite = function (locp) {
-    console.log("Loading site" , locp);
+    console.log("Loading site", locp);
     //EXPERIMENTUM
     //history.pushState(locp , null , locp)
     //check dir
@@ -173,9 +178,9 @@ window.localFS = {
         var settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
         console.log(settings);
         var title = settings.site.title;
-        console.log("Site is" , title , "at" , locp)
-      } catch(err){
-        console.error("can not load settings from" , path.join(locp, "_config/settings.json"));
+        console.log("Site is", title, "at", locp)
+      } catch (err) {
+        console.error("can not load settings from", path.join(locp, "_config/settings.json"));
         console.error(err);
         return false
       }
@@ -184,7 +189,7 @@ window.localFS = {
       //create server
       window.localFS.server = createServer(locp);
       let preload = document.createElement("div");
-      preload.id="preload";
+      preload.id = "preload";
       document.body.appendChild(preload);
       addScript(path.join(window.localFS.root, "_system/scripts/l4.js"));
       return true;

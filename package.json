@@ -2,12 +2,12 @@
   "name": "latid-browser",
   "productName": "Latid browser",
   "version": "1.0.0",
-  "description": "test",
-  "main": "main.js",
+  "description": "Browser for Latid sites.",
+  "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
     "start": "electron-forge start",
-    "sass-watch": "sass --watch sass/screen.scss screen.css",
+    "sass-watch": "sass --watch sass/screen.scss src/screen.css",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -29,8 +29,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "icons/latid",
-        "platform" : ["darwin" , "linux"]
+        "icon": "icons/latid"
       },
       "makers": [
         {
@@ -42,11 +41,15 @@
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin" , "linux"
+            "darwin",
+            "linux"
           ]
         },
         {
           "name": "@electron-forge/maker-dmg",
+          "config": {
+            "background": "assets/dmg.png"
+          },
           "platforms": [
             "darwin"
           ]
@@ -54,7 +57,9 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {
-            "platforms" : ["linux"]
+            "platforms": [
+              "linux"
+            ]
           }
         },
         {

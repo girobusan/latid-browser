@@ -3,6 +3,7 @@ const ipc = require('electron').ipcMain;
 const fs = require('fs');
 const path = require("path");
 var win;
+console.log("main");
 
 //server funcs
 //server write
@@ -61,7 +62,7 @@ function createWindow() {
   })
 
   // и загрузить index.html приложения.
-  win.loadFile('index.html');
+  win.loadFile('src/index.html');
   win.webContents.openDevTools();
 }
 
