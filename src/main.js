@@ -3,7 +3,16 @@ const ipc = require('electron').ipcMain;
 const fs = require('fs');
 const path = require("path");
 var win;
-console.log("main");
+
+//
+function toArrayBuffer(buf) {
+  var ab = new ArrayBuffer(buf.length);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buf.length; ++i) {
+      view[i] = buf[i];
+  }
+  return ab;
+}
 
 //server funcs
 //server write
@@ -26,15 +35,12 @@ ipc.on('copy', function (event, arg) {
 });
 //server get
 ipc.on('get', function (event, arg) {  
+  //console.log("Get" , arg )
     fs.readFile(arg.path,  function(err, data) { 
       if (err) {console.error(err); event.returnValue = {"success" : "no"}};
-      let r = data;
-      try{
-        r = JSON.parse(data);
-      }catch{
-        //do nothing
-      }
-      event.returnValue = r;     
+      let b = data;
+ 
+      event.returnValue = {details:toArrayBuffer(b)};   
     });
 });
 //server get-as-text
@@ -63,7 +69,7 @@ function createWindow() {
 
   // и загрузить index.html приложения.
   win.loadFile('src/index.html');
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);

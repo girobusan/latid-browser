@@ -10,6 +10,14 @@ window.localFS = {
   "type": "latid-browser"
 };
 
+window.old_fetch = fetch;
+
+fetch = function(){
+  console.log("MY FETCH!" , arguments);
+  return old_fetch.apply(null , arguments);
+};
+
+
 //first steps, hiding excess symbols
 (function () {
 
