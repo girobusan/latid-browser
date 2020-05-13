@@ -48,7 +48,7 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "background": "assets/dmg.png"
+            "background": "assets/dmg1.png"
           },
           "platforms": [
             "darwin"
