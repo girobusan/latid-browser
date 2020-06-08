@@ -10,12 +10,7 @@ window.localFS = {
   "type": "latid-browser"
 };
 
-window.old_fetch = fetch;
 
-fetch = function(){
-  console.log("MY FETCH!" , arguments);
-  return old_fetch.apply(null , arguments);
-};
 
 
 //first steps, hiding excess symbols
@@ -35,24 +30,7 @@ fetch = function(){
 
 
 
-  var readFileTextPromise = function (fp) {
-    //console.log("READ TEXT FILE" , fp);
-    return new Promise(function (ok, notOk) {
-      fs.readFile(fp, function (err, data) {
-        if (err) {
-          notOk(err)
-        } else {
-          try {
-            let r = data.toString();
-            ok(r);
-          } catch{
-            ok(data)
-          }
-          //ok(JSON.parse(data))
-        }
-      })
-    })
-  }
+  
   //storage
   /*
  //storage
@@ -96,84 +74,7 @@ fetch = function(){
 
 
   //my fav function
-  var createServer = function (root) {
-    console.log("Setting up local FS");
-    console.log("Local FS server at", root);
 
-    //process.chdir(root);
-    window.localFS.root = root; //DEPRECATED --> window.localFS.server.root
-    var makepath = function (p) {
-      return path.join(root, p);
-    }
-
-    return new function () {
-      this.root = root;
-      var my = this;
-      //refreshSrcList 
-      this.refreshSrcList = function () {
-        console.log("Refresh Src List is not implemented");
-      }
-
-      //copy
-      this.copy = function (f, t) {
-        return new Promise(function (res, rej) {
-          res(ipc.send("copy", { from: makepath(f), to: makepath(t) }));
-        })
-      }
-      //get
-      this.get = function (p) {
-        return new Promise(function (res, rej) {
-          let result = ipc.sendSync("get", { path: makepath(p) });
-          console.log("Event returned", p, result);
-          res(result);
-        })
-      }
-      //getAsText
-      this.getAsText = function (p) {
-        return readFileTextPromise(makepath(p));
-      }
-
-      this.getAsTextSync = function (p) {
-        return fs.readFileSync(makepath(p)).toString();
-      }
-
-      //list
-      this.list = function (p) {
-        //return Promise =>[{details:{path=.....}, ... }]
-        let sp = makepath(p);
-        let spl = sp.length;
-        return new Promise(
-          function (res, rej) {
-            recursive(sp, function (err, files) {
-              if (err) {
-                rej(err);
-              }
-              let rf = files.map(e => e.substring(spl)).filter(a => !a.startsWith("_")).map(w => ({ "path": w }));
-              res({ details: rf });
-
-            })
-          }
-        )
-      }
-      //init
-      this.init = function () {
-        return new Promise(
-          function (res, rej) {
-            res(my)
-          }
-        )
-      }
-      //write
-      this.write = function (c, p) {
-        return new Promise(function (res, rej) {
-          res(ipc.sendSync("write", { path: makepath(p), content: c }));
-        })
-      }
-      //writeOutput
-      //-->return this.write(cnt , Util.gluePath(l4.settings.output.dir , pth));
-    }//server fn ends
-    //h
-  }//it was make server
 
   var loadSite = function (locp) {
     console.log("Loading site", locp);
@@ -184,22 +85,25 @@ fetch = function(){
       //get site info
       try {
         var settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
-        console.log(settings);
+        //console.log(settings);
         var title = settings.site.title;
-        console.log("Site is", title, "at", locp)
+        console.info("Site is", title, "at", locp)
       } catch (err) {
-        console.error("can not load settings from", path.join(locp, "_config/settings.json"));
+        console.error("Can not load settings from", path.join(locp, "_config/settings.json"));
         console.error(err);
         return false
       }
       //check storage
       store.check(title, locp);
       //create server
-      window.localFS.server = createServer(locp);
+      window.localFS.base = locp;
       let preload = document.createElement("div");
+      let prbar = document.createElement("div");
+      prbar.id="progressbar";
       preload.id = "preload";
+      preload.appendChild(prbar);
       document.body.appendChild(preload);
-      addScript(path.join(window.localFS.root, "_system/scripts/l4.js"));
+      addScript(path.join(window.localFS.base, "_system/scripts/l4.js"));
       return true;
     } else {
       console.error("Required files do not exist")

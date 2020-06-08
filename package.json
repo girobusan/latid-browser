@@ -1,6 +1,6 @@
 {
   "name": "latid-browser",
-  "productName": "Latid browser",
+  "productName": "latid-browser",
   "version": "1.0.0",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
@@ -20,22 +20,25 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.51",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.51",
     "@electron-forge/maker-zip": "^6.0.0-beta.51",
-    "electron": "^8.2.5"
+    "electron": "8.2.0"
   },
   "dependencies": {
+    "electron-compile": "^6.4.4",
+    "electron-default-menu": "^1.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "recursive-readdir": "^2.2.2"
   },
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "icons/latid"
+        "icon": "icons/latid",
+        "executableName": "latid-browser"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "latid_browser"
+            "name": "latid-browser"
           }
         },
         {
@@ -48,7 +51,10 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "background": "assets/dmg1.png"
+            "background": "assets/dmg.png",
+            "width" : 640,
+            "height" :480
+           
           },
           "platforms": [
             "darwin"
@@ -57,14 +63,11 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {
+            "name": "latid-browser",
             "platforms": [
               "linux"
             ]
           }
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ]
     }

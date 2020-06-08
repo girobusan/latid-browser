@@ -1,49 +1,12 @@
-const { app, BrowserWindow } = require('electron');
+const { menu, shell , app, BrowserWindow } = require('electron');
 const ipc = require('electron').ipcMain;
 const fs = require('fs');
 const path = require("path");
 var win;
 
-//
-function toArrayBuffer(buf) {
-  var ab = new ArrayBuffer(buf.length);
-  var view = new Uint8Array(ab);
-  for (var i = 0; i < buf.length; ++i) {
-      view[i] = buf[i];
-  }
-  return ab;
-}
 
-//server funcs
-//server write
-ipc.on('write', function (event, arg) {
-  let where = path.dirname(arg.path);
-  if (!fs.existsSync(where)) {
-    fs.mkdirSync(where, { recursive: true }, (err) => { console.error(err) });
-  }
-  fs.writeFile(arg.path, arg.content, () => event.returnValue = { 'success': 'yes' });
-
-});
-//server copy
-ipc.on('copy', function (event, arg) {
-  let where = path.dirname(arg.to);
-  if (!fs.existsSync(where)) {
-    fs.mkdirSync(where, { recursive: true }, (err) => { console.error(err) });
-  }
-  fs.copyFile(arg.from, arg.to, () => event.returnValue = { 'success': 'yes' });
-
-});
-//server get
-ipc.on('get', function (event, arg) {  
-  //console.log("Get" , arg )
-    fs.readFile(arg.path,  function(err, data) { 
-      if (err) {console.error(err); event.returnValue = {"success" : "no"}};
-      let b = data;
- 
-      event.returnValue = {details:toArrayBuffer(b)};   
-    });
-});
 //server get-as-text
+/*
 ipc.on('get-as-text', function (event, arg) {  
   fs.readFile(arg.path,  function(err, data) { 
     if (err) {console.error(err); event.returnValue = {"success" : "no"}};
@@ -51,6 +14,7 @@ ipc.on('get-as-text', function (event, arg) {
     event.returnValue = r;     
   });
 });
+*/
 
 
 
@@ -63,7 +27,8 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true,
     }
   })
 
