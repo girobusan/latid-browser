@@ -26,7 +26,8 @@
     "electron-compile": "^6.4.4",
     "electron-default-menu": "^1.0.1",
     "electron-squirrel-startup": "^1.0.0",
-    "recursive-readdir": "^2.2.2"
+    "recursive-readdir": "^2.2.2",
+    "walk": "^2.3.14"
   },
   "config": {
     "forge": {
@@ -52,9 +53,8 @@
           "name": "@electron-forge/maker-dmg",
           "config": {
             "background": "assets/dmg.png",
-            "width" : 640,
-            "height" :480
-           
+            "width": 640,
+            "height": 480
           },
           "platforms": [
             "darwin"

@@ -4,11 +4,10 @@ const { dialog } = require('electron').remote;
 const electron = require("electron")
 const ipc = electron.ipcRenderer;
 const recursive = require("recursive-readdir");
+var serv = require( "./latid-server");
 
 
-window.localFS = {
-  "type": "latid-browser"
-};
+
 
 
 
@@ -30,20 +29,6 @@ window.localFS = {
 
 
 
-  
-  //storage
-  /*
- //storage
-    let store = window.localStorage;
-    //chek
-    window.storeCheck = function (v) {
-      if (!store.getItem(v)) {
-        store.setItem(v, v);
-      }
-    }
-
-
-  */
   //sites storage
   var store = new function () {
     var s = window.localStorage;
@@ -94,16 +79,15 @@ window.localFS = {
         return false
       }
       //check storage
-      store.check(title, locp);
-      //create server
-      window.localFS.base = locp;
-      let preload = document.createElement("div");
-      let prbar = document.createElement("div");
-      prbar.id="progressbar";
-      preload.id = "preload";
-      preload.appendChild(prbar);
-      document.body.appendChild(preload);
-      addScript(path.join(window.localFS.base, "_system/scripts/l4.js"));
+      ipc.send('server' , {"command":"start" , "root" : locp});
+      window.location = "http://localhost:9999"
+      //let preload = document.createElement("div");
+      //let prbar = document.createElement("div");
+      //prbar.id = "progressbar";
+      //preload.id = "preload";
+      //preload.appendChild(prbar);
+      //document.body.appendChild(preload);
+      //addScript(path.join(locp ,  "/_system/scripts/l4.js"));
       return true;
     } else {
       console.error("Required files do not exist")
