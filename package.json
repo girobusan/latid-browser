@@ -1,6 +1,6 @@
 {
-  "name": "latid-browser",
-  "productName": "latid-browser",
+  "name": "Latid_browser",
+  "productName": "Latid browser",
   "version": "1.0.0",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
@@ -26,6 +26,8 @@
     "electron-compile": "^6.4.4",
     "electron-default-menu": "^1.0.1",
     "electron-squirrel-startup": "^1.0.0",
+    "mime": "^2.4.6",
+    "mime-types": "^2.1.27",
     "recursive-readdir": "^2.2.2",
     "walk": "^2.3.14"
   },

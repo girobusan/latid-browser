@@ -37,7 +37,7 @@ function createWindow() {
 
   // и загрузить index.html приложения.
   win.loadFile('src/index.html');
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
   var menu = Menu.buildFromTemplate([
     {
       label: 'Menu',
