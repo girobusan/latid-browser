@@ -14,6 +14,7 @@ var serv = require( "./latid-server");
 
 //first steps, hiding excess symbols
 (function () {
+  ipc.send('publish' , {"status": false});
 
   //sevice functions
   var addScript = function (p) {
@@ -72,6 +73,10 @@ var serv = require( "./latid-server");
         var settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
         //console.log(settings);
         var title = settings.site.title;
+        if(settings.publish && settings.publish.command){
+          ipc.send('publish' , {"enabled": true , "command" : settings.publish.command , "cwd": locp});
+
+        }
         console.info("Site is", title, "at", locp)
       } catch (err) {
         console.error("Can not load settings from", path.join(locp, "_config/settings.json"));
@@ -80,7 +85,8 @@ var serv = require( "./latid-server");
       }
       //check storage
       ipc.send('server' , {"command":"start" , "root" : locp});
-      window.location = "http://localhost:9999"
+      console.log("go to!~")
+      setTimeout( ()=> window.location = "http://localhost:9999" , 500);
       //let preload = document.createElement("div");
       //let prbar = document.createElement("div");
       //prbar.id = "progressbar";

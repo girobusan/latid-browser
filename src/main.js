@@ -2,24 +2,14 @@ const { shell, app, BrowserWindow, Menu, MenuItem } = require('electron');
 const ipc = require('electron').ipcMain;
 const fs = require('fs');
 const path = require("path");
+const child_process = require('child_process');
+
 var serv = require("./latid-server");
 var win;
-
-
-//server get-as-text
-/*
-ipc.on('get-as-text', function (event, arg) {  
-  fs.readFile(arg.path,  function(err, data) { 
-    if (err) {console.error(err); event.returnValue = {"success" : "no"}};
-    let r = data.toString();    
-    event.returnValue = r;     
-  });
-});
-*/
-
-
-
-
+var menu;
+var pubfunction = function(){
+  console.log("Default publish command");
+}
 //end server logic
 
 function createWindow() {
@@ -33,17 +23,19 @@ function createWindow() {
       sandbox: false,
 
     }
-  })
+  });
+
+ 
 
   // и загрузить index.html приложения.
   win.loadFile('src/index.html');
   //win.webContents.openDevTools();
-  var menu = Menu.buildFromTemplate([
+  menu = Menu.buildFromTemplate([
     {
-      label: 'Menu',
+      label: 'Latid browser',
       submenu: [
         { label: 'Site chooser' ,
-        click(){serv.stop() ; win.loadFile('src/index.html');},
+        click(){win.loadFile('src/index.html');},
         accelerator: 'CmdOrCtrl+R'
       
       },
@@ -60,9 +52,24 @@ function createWindow() {
           accelerator: 'CmdOrCtrl+Q'
         }
       ]
-    }
+    },
+    {
+      label: "Edit",
+      submenu: [
+          //{ label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          //{ label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+         // { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { type: 'separator' },
+          { label: "Run publish command", accelerator: "CmdOrCtrl+P", id: "publish" , click(){pubfunction()} },
+
+          //{ label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]}
   ])
   Menu.setApplicationMenu(menu);
+  //menu.
 }
 
 app.whenReady().then(createWindow);
@@ -84,13 +91,40 @@ app.on('activate', () => {
 });
 
 //var servworker = new Worker("server-worker.js");
+//setup server thread
 
 ipc.on('server', function (event, arg) {
   if (arg.command == "start") {
     console.log(arg);
-    serv.configure({ root: arg.root });
+    //servt.send({ root: arg.root });
     //servworker.postMessage({root: arg.root});
+    serv.stop();
+    serv.configure(arg);
     serv.start();
+  }
+});
+ipc.on('publish', function (event, arg) {
+  let pm = menu.getMenuItemById("publish");
+  
+  if (arg.enabled) {
+    console.log("Publish enabled");
+    pm.enabled = true;
+    pubfunction = function(){
+      console.log("Prepare to execute" , arg.command , "at" , arg.cwd);
+      child_process.exec(arg.command , {cwd: arg.cwd} , function(error, stdout , stderr ){
+        if(error){
+          console.error("Publish command error" , error)
+          console.error(stderr)
+        }else{
+          console.info("Command completed sucessfully");
+          console.log(stdout)
+        }
+      })
+    }
+    
+  }else{
+    console.log("Publish disabled")
+    pm.enabled = false;
   }
 })
 
