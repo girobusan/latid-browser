@@ -74,7 +74,7 @@ var serv = require( "./latid-server");
         //console.log(settings);
         var title = settings.site.title;
         if(settings.publish && settings.publish.command){
-          ipc.send('publish' , {"enabled": true , "command" : settings.publish.command , "cwd": locp});
+          ipc.send('publish' , {"enabled": true , "command" : settings.publish.command , "cwd": locp , "args" : settings.publish.args });
 
         }
         console.info("Site is", title, "at", locp)

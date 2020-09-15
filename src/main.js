@@ -111,15 +111,14 @@ ipc.on('publish', function (event, arg) {
     pm.enabled = true;
     pubfunction = function(){
       console.log("Prepare to execute" , arg.command , "at" , arg.cwd);
-      child_process.exec(arg.command , {cwd: arg.cwd} , function(error, stdout , stderr ){
-        if(error){
-          console.error("Publish command error" , error)
-          console.error(stderr)
-        }else{
-          console.info("Command completed sucessfully");
-          console.log(stdout)
-        }
-      })
+      let args = arg.args ? arg.args : [];
+      if(!Array.isArray(args)){
+        args = [args];
+            }
+      let pp = child_process.spawn(arg.command , args, {cwd: arg.cwd}) ;
+      pp.on("exit" , ()=>console.log("exited"));
+      pp.on("close" , ()=>console.log("closed"));
+      pp.on("error" , (e)=>console.error("error" , e))
     }
     
   }else{

@@ -4,8 +4,7 @@ const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require("path");
 const mime = require('mime-types');
-//import * as API from "./latid-server-api" ;
-const API = require("./latid-server-api")
+const API  = require("./latid-server-api") ;
 
 var config = {
     api_root: "api",
@@ -23,7 +22,6 @@ function configure(conf) {
 }
 
 function start() {
-    console.log("Server starting");
     server = http.createServer(requestListener);
     API.configure({root: config.root});
     server.listen(config.port, config.host, () => {
@@ -33,7 +31,6 @@ function start() {
 }
 
 function stop() {
-    console.log("Server stopping")
     if (server) {
         console.info("Closing Latid server...")
         server.close(() => server = null);
@@ -41,9 +38,22 @@ function stop() {
 }
 
 module.exports = {
-    configure: configure,
     start: start,
-    stop: stop
+    stop: stop,
+    configure: configure
+}
+
+function concatTypedArrays(a, b) { // a, b TypedArray of same type
+    var c = new (a.constructor)(a.length + b.length);
+    c.set(a, 0);
+    c.set(b, a.length);
+    return c;
+}
+
+function concatBytes(ui8a, byte) {
+    var b = new Uint8Array(1);
+    b[0] = byte;
+    return concatTypedArrays(ui8a, b);
 }
 
 const serveFile = function (p, res) {
@@ -80,9 +90,9 @@ const requestListener = function (req, res) {
     if (parts[0] != config.api_root) {
         serveFile(route, res)
     } else if (req.method == "POST") {        
-        let data = [];
-        req.on('data' , c=>data.push(c));
-        req.on('end' , ()=>API.invoke(req, res, parts[1] , params , Buffer.from(data.join()) ));        
+        let data = new Uint8Array();
+        req.on('data' , c=> data = concatTypedArrays(data , new Uint8Array(c) ));
+        req.on('end' , ()=>{console.log(data.length) ;API.invoke(req, res, parts[1] , params , data)});        
     }else{
         API.invoke(req, res, parts[1] , params , "" )
     }

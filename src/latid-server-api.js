@@ -2,13 +2,9 @@ const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require("path");
 var walk = require('walk');
-const querystring = require('querystring');
+//const querystring = require('querystring');
 //function (res, point , params , method)
-/**
- * @param {String} command Command name
- * @param {Object|String} body Responce body
- * @param {Boolean} success sucessful or not
- */
+
 
 var config = {
     //api_root: "api",
@@ -16,7 +12,11 @@ var config = {
     //port: 9999,
     //host: "localhost",
 }
-
+/**
+ * @param {String} command Command name
+ * @param {Object|String} body Responce body
+ * @param {Boolean} success sucessful or not
+ */
 function makeJSONresponce(command, body, success) {
     return JSON.stringify({
         command: command,
@@ -85,6 +85,7 @@ const APIHandlers = {
  * 
  * @param {Object} conf 
  */
+
 function configure(conf) {
     Object.assign(config, conf);
 
@@ -121,6 +122,7 @@ function invoke(request, responce, point, params, data) {
 }
 
 module.exports = {
-    configure: configure,
-    invoke: invoke    
+    invoke: invoke,
+    configure: configure
+
 }
