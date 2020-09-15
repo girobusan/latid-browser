@@ -110,14 +110,17 @@ ipc.on('publish', function (event, arg) {
     console.log("Publish enabled");
     pm.enabled = true;
     pubfunction = function(){
+      let finfn = ()=> win.webContents.executeJavaScript("window.l4.messages.publish_end()").catch(e=>console.error(e));
+
+      win.webContents.executeJavaScript("window.l4.messages.publish_start()").catch(e=>console.error(e));
       console.log("Prepare to execute" , arg.command , "at" , arg.cwd);
       let args = arg.args ? arg.args : [];
       if(!Array.isArray(args)){
         args = [args];
             }
       let pp = child_process.spawn(arg.command , args, {cwd: arg.cwd}) ;
-      pp.on("exit" , ()=>console.log("exited"));
-      pp.on("close" , ()=>console.log("closed"));
+      pp.on("exit" , finfn);
+      pp.on("close" , finfn);
       pp.on("error" , (e)=>console.error("error" , e))
     }
     
