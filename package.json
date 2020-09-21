@@ -35,7 +35,8 @@
     "forge": {
       "packagerConfig": {
         "icon": "icons/latid",
-        "executableName": "latid-browser"
+        "executableName": "latid-browser",
+        "platform" : ["darvin" , "linux" , "win32"]
       },
       "makers": [
         {
@@ -46,10 +47,7 @@
         },
         {
           "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin",
-            "linux"
-          ]
+          "platforms": "all"
         },
         {
           "name": "@electron-forge/maker-dmg",
