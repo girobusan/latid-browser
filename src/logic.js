@@ -84,6 +84,7 @@ var serv = require( "./latid-server");
         return false
       }
       //check storage
+      store.check(title , locp)
       ipc.send('server' , {"command":"start" , "root" : locp});
       console.log("go to!~")
       setTimeout( ()=> window.location = "http://localhost:9999" , 500);

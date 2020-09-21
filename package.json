@@ -1,7 +1,7 @@
 {
-  "name": "Latid_browser",
-  "productName": "Latid browser",
-  "version": "1.0.0",
+  "name": "latid_browser",
+  "productName": "latid_browser",
+  "version": "1.0.1",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
   "scripts": {
@@ -35,8 +35,12 @@
     "forge": {
       "packagerConfig": {
         "icon": "icons/latid",
-        "executableName": "latid-browser",
-        "platform" : ["darvin" , "linux" , "win32"]
+        "executableName": "latid_browser",
+        "platform": [
+          "darvin",
+          "linux",
+          "win32"
+        ]
       },
       "makers": [
         {
