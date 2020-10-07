@@ -16,12 +16,12 @@ var config = {
 var server = null;
 
 
-function configure(conf) {
-    console.log("Conf" , conf)
+export function configure(conf) {
+    //console.log("Conf" , conf)
     config = Object.assign(config, conf);
 }
 
-function start() {
+export function start() {
     server = http.createServer(requestListener);
     API.configure({root: config.root});
     server.listen(config.port, config.host, () => {
@@ -30,19 +30,12 @@ function start() {
 
 }
 
-function stop() {
+export function stop() {
     if (server) {
         console.info("Closing Latid server...")
         server.close(() => server = null);
     }
 }
-
-module.exports = {
-    start: start,
-    stop: stop,
-    configure: configure
-}
-
 function concatTypedArrays(a, b) { // a, b TypedArray of same type
     var c = new (a.constructor)(a.length + b.length);
     c.set(a, 0);
@@ -92,7 +85,7 @@ const requestListener = function (req, res) {
     } else if (req.method == "POST") {        
         let data = new Uint8Array();
         req.on('data' , c=> data = concatTypedArrays(data , new Uint8Array(c) ));
-        req.on('end' , ()=>{console.log(data.length) ;API.invoke(req, res, parts[1] , params , data)});        
+        req.on('end' , ()=>{API.invoke(req, res, parts[1] , params , data)});        
     }else{
         API.invoke(req, res, parts[1] , params , "" )
     }

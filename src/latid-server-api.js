@@ -39,31 +39,31 @@ const APIHandlers = {
         if (fs.existsSync(fr) && fs.lstatSync(fr).isFile()) {
             //make dirs for copying
             let pathparts = path.parse(t);
-            fsp.mkdir(path.join(pathparts.root, pathparts.dir), { recursive: true })
-                //copy
-                .then(
-                    fsp.copyFile(fr, t)
-                )
-                //send responce
+            //we have to do SYNC
+            fs.mkdirSync(path.join(pathparts.root, pathparts.dir), { recursive: true });
+            //copy
+
+            fsp.copyFile(fr, t)
                 .then(callb("copied"))
-                .catch(err => callb(false, "Error: " + err))
+                .catch(err => console.error("Copy error:", err));
+
         } else {
             callb(false, "Source file doesn't exist or is not a file");
         }
     },
     //WRITE (assuming POST) - params.
-    write: function(params, callb , data){
+    write: function (params, callb, data) {
         //console.log("POST data:" , data , "length:" , data.length);
-        
-        let where = path.join(config.root , Object.keys(params)[0]);
+
+        let where = path.join(config.root, Object.keys(params)[0]);
         //console.log("Write to:" , where); 
         //create dirs
         let wparsed = path.parse(where);
-        fs.mkdirSync(path.join(wparsed.root , wparsed.dir) , {recursive:true} )
+        fs.mkdirSync(path.join(wparsed.root, wparsed.dir), { recursive: true })
 
         fsp.writeFile(where, data, 'binary')
-        .then(callb("Written"))
-        .catch(err=>callb(false, "Write error: " + err))
+            .then(callb("Written"))
+            .catch(err => callb(false, "Write error: " + err))
 
     },
     //LIST

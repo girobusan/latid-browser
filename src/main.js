@@ -4,6 +4,11 @@ const fs = require('fs');
 const path = require("path");
 const child_process = require('child_process');
 
+//const { app } = require('electron');
+
+if (require('electron-squirrel-startup')) return app.quit();
+
+
 var serv = require("./latid-server");
 var win;
 var menu;
