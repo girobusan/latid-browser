@@ -16,12 +16,12 @@ var config = {
 var server = null;
 
 
-export function configure(conf) {
+function configure(conf) {
     //console.log("Conf" , conf)
     config = Object.assign(config, conf);
 }
 
-export function start() {
+function start() {
     server = http.createServer(requestListener);
     API.configure({root: config.root});
     server.listen(config.port, config.host, () => {
@@ -30,11 +30,17 @@ export function start() {
 
 }
 
-export function stop() {
+function stop() {
     if (server) {
         console.info("Closing Latid server...")
         server.close(() => server = null);
     }
+}
+
+module.exports = {
+    "configure": configure,
+    "start": start,
+    "stop": stop
 }
 function concatTypedArrays(a, b) { // a, b TypedArray of same type
     var c = new (a.constructor)(a.length + b.length);
