@@ -4,6 +4,7 @@
   "version": "1.0.4",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
+  "repository": {"url": "@github:girobusan/latid-browser.git"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
     "start": "electron-forge start",
