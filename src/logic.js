@@ -12,9 +12,13 @@ var serv = require( "./latid-server");
 
 
 
+
 //first steps, hiding excess symbols
 (function () {
   ipc.send('publish' , {"status": false});
+  //const browser_el = document.getElementById("browser");
+  //console.log("browser" , browser_el)
+  //browser_el.contentWindow.addEventListener("hashchange" , (e)=>console.log("HASH CHANGED" , e));
 
   //sevice functions
   var addScript = function (p) {
@@ -63,6 +67,7 @@ var serv = require( "./latid-server");
 
 
   var loadSite = function (locp) {
+    
     console.log("Loading site", locp);
     //EXPERIMENTUM
     //history.pushState(locp , null , locp)
@@ -86,8 +91,17 @@ var serv = require( "./latid-server");
       //check storage
       store.check(title , locp)
       ipc.send('server' , {"command":"start" , "root" : locp});
-      console.log("go to!~")
-      setTimeout( ()=> window.location = "http://localhost:9999" , 500);
+      console.log("go to!~");
+      setTimeout( function(){
+        console.info("show page...");
+        ipc.send("browse" , {"url" : "http://localhost:9999" });
+        //browser_el.src = "http://localhost:9999" ; 
+        //browser_el.contentWindow.addEventListener("hashchange" , (e)=>console.log("HASH CHANGED" , e));
+        //browser_el.contentWindow.addEventListener("click" , e=>console.log("Iframe" , eval))
+
+        //browser_el.
+        //browser_el.style.display="block" 
+      }, 500);
       //let preload = document.createElement("div");
       //let prbar = document.createElement("div");
       //prbar.id = "progressbar";
