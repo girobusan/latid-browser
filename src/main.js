@@ -44,7 +44,7 @@ function createWindow() {
       submenu: [
         {
           label: 'Site chooser',
-          click() { if (browser) { win.removeBrowserView(browser) ; browser.destroy() ; browser=null} },
+          click() { if (browser) { win.removeBrowserView(browser) ; browser.destroy() ; browser=null}; win.webContents.send('status' , {text: "Site chooser"});},
           accelerator: 'CmdOrCtrl+R'
 
         },
@@ -128,8 +128,8 @@ ipc.on('publish', function (event, arg) {
     console.log("Publish enabled");
     pm.enabled = true;
     pubfunction = function () {
-      let finfn = () => win.webContents.executeJavaScript("window.l4.messages.publish_end()").catch(e => console.error(e));
-      win.webContents.executeJavaScript("window.l4.messages.publish_start()").catch(e => console.error(e));
+      let finfn = () => browser.webContents.executeJavaScript("window.l4.messages.publish_end()").catch(e => console.error(e));
+      browser.webContents.executeJavaScript("window.l4.messages.publish_start()").catch(e => console.error(e));
       console.log("Prepare to execute", arg.command, "at", arg.cwd);
       let args = arg.args ? arg.args : [];
       if (!Array.isArray(args)) {
@@ -196,18 +196,15 @@ ipc.on('browse', function (e, a) {
     //attach to window
     win.setBrowserView(browser);   
     //browser.show();
-    browser.setBounds({ x: 0, y: 24, width: winb.width, height: winb.height - 24 });
+    browser.setBounds({ x: 0, y: 32, width: winb.width, height: winb.height - 32 });
     win.on("resize", function () {
       if (!browser) {
         return;
       }
       
       let nb = win.getBounds();
-      browser.setBounds({ x: 0, y: 24, width: nb.width, height: nb.height - 24 });
-      if(!toolbar){
-        return;
-      }
-      toolbar.setBounds({ x: 0, y: 0, width: nb.width, height: 24 });
+      browser.setBounds({ x: 0, y: 32, width: nb.width, height: nb.height - 32 });
+      
     })
   }
   browser.webContents.loadURL(a.url);
