@@ -3,6 +3,8 @@ const ipc = require('electron').ipcMain;
 //const fs = require('fs');
 //const path = require("path");
 const child_process = require('child_process');
+var browser; //browser view
+var toolbar ; //toolbar
 
 //const { app } = require('electron');
 
@@ -48,8 +50,14 @@ function createWindow() {
         },
         {
           label: 'Open developer tools',
-          click() { win.webContents.openDevTools(); },
+          click() { browser ? browser.webContents.openDevTools() : win.webContents.openDevTools(); },
           accelerator: 'CmdOrCtrl+T'
+
+        },
+        {
+          label: 'App developer tools (window)',
+          click() { win.webContents.openDevTools({mode: "detach"}); },
+          accelerator: 'CmdOrCtrl+D'
 
         },
         { type: 'separator' },
@@ -139,7 +147,7 @@ ipc.on('publish', function (event, arg) {
   }
 });
 
-var browser;
+
 
 ipc.on("browse-stop", function (e, a) {
   console.log("hide browser")
@@ -150,6 +158,8 @@ ipc.on("browse-stop", function (e, a) {
 
 
 ipc.on('browse', function (e, a) {
+  let winb = win.getBounds();
+  
   if (!browser) {
     browser = new BrowserView({
       x: 0,
@@ -174,18 +184,30 @@ ipc.on('browse', function (e, a) {
 
     });
 
+    browser.webContents.on("did-navigate-in-page" , function(e , u){
+      //console.log("navigate in page");
+      //console.log(arguments)
+      let uri = u.substring(u.lastIndexOf('#')+2);
+      win.webContents.send('status' , {text: uri});
+      //ipc.send('status' , {text: "navigate"});
+    })
+
 
     //attach to window
-    win.setBrowserView(browser);
-    let winb = win.getBounds();
+    win.setBrowserView(browser);   
     //browser.show();
-    browser.setBounds({ x: 0, y: 24, width: winb.width, height: winb.height - 24 })
+    browser.setBounds({ x: 0, y: 24, width: winb.width, height: winb.height - 24 });
     win.on("resize", function () {
       if (!browser) {
         return;
       }
+      
       let nb = win.getBounds();
-      browser.setBounds({ x: 0, y: 24, width: nb.width, height: nb.height - 48 })
+      browser.setBounds({ x: 0, y: 24, width: nb.width, height: nb.height - 24 });
+      if(!toolbar){
+        return;
+      }
+      toolbar.setBounds({ x: 0, y: 0, width: nb.width, height: 24 });
     })
   }
   browser.webContents.loadURL(a.url);

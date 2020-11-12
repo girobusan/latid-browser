@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toolbar</title>
+    <style>
+body, html{
+    background-color: red;
+}
+
+    </style>
+</head>
+<body>
+    <div id = "status">...</div>
+    <script>
+        const ipc = electron.ipcRenderer;
+        var status = document.getElementById("status");
+        ipc.on('status' , function(e,a){
+            status.innerText = a.text;
+        }
+
+    </script>
+</body>
+</html>

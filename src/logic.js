@@ -158,7 +158,13 @@ var serv = require( "./latid-server");
         loadSite(r.filePaths[0]);
       }
       );
-    })
+    });
+    //status bar logic
+    let tb = document.getElementById("toolbox");
+    ipc.on('status' , function(e,a){
+          tb.innerHTML = a.text || "?";
+
+    });
   })
 }());
 
