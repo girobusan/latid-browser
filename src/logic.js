@@ -160,7 +160,7 @@ var serv = require( "./latid-server");
       );
     });
     //status bar logic
-    let tb = document.getElementById("toolbox");
+    let tb = document.getElementById("adress");
     ipc.on('status' , function(e,a){
           tb.innerHTML = a.text || "?";
 
