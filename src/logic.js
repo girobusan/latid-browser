@@ -113,13 +113,27 @@ const ipc = electron.ipcRenderer;
     });
     //status bar logic
     let tb = document.getElementById("adress");
+    let shade = document.getElementById("shade");
     ipc.on('status', function (e, a) {
       //console.log("Status to" , a)
-      tb.innerHTML = a.text || "Site chooser";
+      if(a.text){
+        shade.style.display = "block";
+        tb.innerHTML = a.text;
+      }else{
+        tb.innerHTML = "Site chooser"
+        shade.style.display = "none";
+      }
     });
     ipc.on('title', function (e, a) {
       //console.log("Title to" , a)
-      window.document.title = a.text || "Latid";
+      if(a.text){
+        shade.style.display = "block";
+        window.document.title = a.text;
+      }else{
+        window.document.title = "Latid";
+        shade.style.display = "none";
+      }
+      
     });
   })
 }());

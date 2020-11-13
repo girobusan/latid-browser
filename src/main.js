@@ -25,6 +25,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
+    backgroundColor: '#ffffff',
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
@@ -158,6 +159,7 @@ ipc.on('browse', function (e, a) {
       height: 600,
       width: 800,
       frame: false,
+      transparent: false,
       backgroundColor: '#ffffff',
       titleBarStyle: 'hidden',
       webPreferences: {
@@ -204,8 +206,9 @@ ipc.on('browse', function (e, a) {
       
     })
   }
-  browser.webContents.loadURL(a.url);
   browser.setBackgroundColor("#ffffff");
+  browser.webContents.loadURL(a.url);
+  
 
   
 });

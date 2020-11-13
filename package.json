@@ -1,7 +1,7 @@
 {
   "name": "latid_browser",
   "productName": "latid_browser",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
   "repository": {"url": "@github:girobusan/latid-browser.git"},
