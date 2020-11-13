@@ -4,7 +4,7 @@ const ipc = require('electron').ipcMain;
 //const path = require("path");
 const child_process = require('child_process');
 var browser; //browser view
-var toolbar ; //toolbar
+
 
 //const { app } = require('electron');
 
@@ -32,19 +32,16 @@ function createWindow() {
 
     }
   });
-
-
-
   // и загрузить index.html приложения.
   win.loadFile('src/index.html');
-  //win.webContents.openDevTools();
+  //build menu
   menu = Menu.buildFromTemplate([
     {
       label: 'Latid browser',
       submenu: [
         {
           label: 'Site chooser',
-          click() { if (browser) { win.removeBrowserView(browser) ; browser.destroy() ; browser=null}; win.webContents.send('status' , {text: "Site chooser"});},
+          click() { if (browser) { win.removeBrowserView(browser) ; browser.destroy() ; browser=null}; win.webContents.send('status' , {text: ""});win.webContents.send('title' , {text: ""});},
           accelerator: 'CmdOrCtrl+R'
 
         },
@@ -72,23 +69,18 @@ function createWindow() {
     {
       label: "Edit",
       submenu: [
-        //{ label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-        //{ label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-        // { type: "separator" },
         { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
         { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { type: 'separator' },
-        { label: "Run publish command", accelerator: "CmdOrCtrl+P", id: "publish", click() { pubfunction() } },
-
-        //{ label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        { label: "Run publish command", accelerator: "CmdOrCtrl+P", id: "publish", click() { pubfunction() } },        
       ]
     }
   ])
   Menu.setApplicationMenu(menu);
   //menu.
 }
-
+//starting!
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
@@ -158,8 +150,7 @@ ipc.on("browse-stop", function (e, a) {
 
 
 ipc.on('browse', function (e, a) {
-  let winb = win.getBounds();
-  
+  let winb = win.getBounds();  
   if (!browser) {
     browser = new BrowserView({
       x: 0,
@@ -184,13 +175,19 @@ ipc.on('browse', function (e, a) {
 
     });
 
-    browser.webContents.on("did-navigate-in-page" , function(e , u){
-      //console.log("navigate in page");
-      //console.log(arguments)
+    browser.webContents.on("did-navigate-in-page" , function(e , u){    
       let uri = u.substring(u.lastIndexOf('#')+2);
-      win.webContents.send('status' , {text: uri});
-      //ipc.send('status' , {text: "navigate"});
-    })
+      win.webContents.send('status' , {text: uri , class: 'page_uri'});      
+    });
+
+    browser.webContents.on("page-title-updated" , function(e , t){         
+      win.webContents.send('title' , {text: t });      
+    });
+
+    browser.webContents.on("destroy" , function(){    
+      win.webContents.send('status' , {text: null });
+      win.webContents.send('title' , {text: null });
+    });
 
 
     //attach to window

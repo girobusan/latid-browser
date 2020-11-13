@@ -3,42 +3,17 @@ const path = require("path");
 const { dialog } = require('electron').remote;
 const electron = require("electron")
 const ipc = electron.ipcRenderer;
-const recursive = require("recursive-readdir");
-var serv = require( "./latid-server");
-
-
-
-
-
-
-
 
 //first steps, hiding excess symbols
 (function () {
-  ipc.send('publish' , {"status": false});
-  //const browser_el = document.getElementById("browser");
-  //console.log("browser" , browser_el)
-  //browser_el.contentWindow.addEventListener("hashchange" , (e)=>console.log("HASH CHANGED" , e));
+  //disable publish menu 
+  ipc.send('publish', { "status": false });
 
-  //sevice functions
-  var addScript = function (p) {
-    let s = document.createElement("script");
-    let old = document.getElementById("latid_site_script");
-    if (old) {
-      old.remove();
-    }
-    s.setAttribute("src", p);
-    s.setAttribute("id", "latid_site_script")
-    document.body.appendChild(s);
-  }
-
-
-
-  //sites storage
+  //init sites storage
   var store = new function () {
     var s = window.localStorage;
     this.check = function (title, pth) {
-      console.log("Checking sites history")
+      //console.log("Checking sites history")
       let k = title + "@" + pth
       if (!s.getItem(k)) {
         s.setItem(k, JSON.stringify({ "title": title, "path": pth, "key": k }));
@@ -57,29 +32,20 @@ var serv = require( "./latid-server");
       }
       return r;
     }
-
   }
-  //switch to site
-
-
-
-  //my fav function
-
-
+  //this one loads site from local path 
   var loadSite = function (locp) {
-    
+
     console.log("Loading site", locp);
-    //EXPERIMENTUM
-    //history.pushState(locp , null , locp)
-    //check dir
+
     if (fs.existsSync(locp) && fs.existsSync(path.join(locp, "_config/settings.json"))) {
       //get site info
       try {
         var settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
         //console.log(settings);
         var title = settings.site.title;
-        if(settings.publish && settings.publish.command){
-          ipc.send('publish' , {"enabled": true , "command" : settings.publish.command , "cwd": locp , "args" : settings.publish.args });
+        if (settings.publish && settings.publish.command) {
+          ipc.send('publish', { "enabled": true, "command": settings.publish.command, "cwd": locp, "args": settings.publish.args });
 
         }
         console.info("Site is", title, "at", locp)
@@ -88,27 +54,15 @@ var serv = require( "./latid-server");
         console.error(err);
         return false
       }
-      //check storage
-      store.check(title , locp)
-      ipc.send('server' , {"command":"start" , "root" : locp});
+      //check storage (save if new site)
+      store.check(title, locp);
+      ipc.send('server', { "command": "start", "root": locp });
       console.log("go to!~");
-      setTimeout( function(){
+      setTimeout(function () {
         console.info("show page...");
-        ipc.send("browse" , {"url" : "http://localhost:9999" });
-        //browser_el.src = "http://localhost:9999" ; 
-        //browser_el.contentWindow.addEventListener("hashchange" , (e)=>console.log("HASH CHANGED" , e));
-        //browser_el.contentWindow.addEventListener("click" , e=>console.log("Iframe" , eval))
+        ipc.send("browse", { "url": "http://localhost:9999" });
 
-        //browser_el.
-        //browser_el.style.display="block" 
       }, 500);
-      //let preload = document.createElement("div");
-      //let prbar = document.createElement("div");
-      //prbar.id = "progressbar";
-      //preload.id = "preload";
-      //preload.appendChild(prbar);
-      //document.body.appendChild(preload);
-      //addScript(path.join(locp ,  "/_system/scripts/l4.js"));
       return true;
     } else {
       console.error("Required files do not exist")
@@ -117,11 +71,9 @@ var serv = require( "./latid-server");
   }
 
   window.addEventListener("DOMContentLoaded", function () {
+    //show saved sites
     let saved_items_table = document.getElementById("saved_sites");
-    //show already saved sites
     store.items().forEach(function (e) {
-      //console.log(e);
-      //row
       let row = document.createElement("div");
       row.classList.add("site");
       //run button
@@ -145,7 +97,7 @@ var serv = require( "./latid-server");
       row.appendChild(minus);
       saved_items_table.appendChild(row);
     });
-    ///-storage
+    ///button for load site from FS
     let b = document.getElementById("main_button");
     b.addEventListener("click", function () {
       let p = dialog.showOpenDialog({
@@ -161,10 +113,13 @@ var serv = require( "./latid-server");
     });
     //status bar logic
     let tb = document.getElementById("adress");
-    ipc.on('status' , function(e,a){
-          tb.innerHTML = a.text || "?";
-
+    ipc.on('status', function (e, a) {
+      //console.log("Status to" , a)
+      tb.innerHTML = a.text || "Site chooser";
+    });
+    ipc.on('title', function (e, a) {
+      //console.log("Title to" , a)
+      window.document.title = a.text || "Latid";
     });
   })
 }());
-
