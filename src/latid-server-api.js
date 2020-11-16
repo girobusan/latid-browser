@@ -70,6 +70,11 @@ const APIHandlers = {
     list: function (params, callb) {
         let dir = path.join(config.root, Object.keys(params)[0] || "");
 
+        if(!fs.existsSync(dir) || !fs.lstatSync(dir).isDirectory()){
+            callb(false , "Path does not exist or is not a directory")
+            return ;
+        }
+
         function path2local(p) {
             let cut = p.substring(dir.length);
             return cut.startsWith("/") ? cut : "/" + cut;
