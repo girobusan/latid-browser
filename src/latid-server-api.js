@@ -82,8 +82,8 @@ const APIHandlers = {
 
         let rez = [];
         let walker = walk.walk(dir);
-        walker.on("file", (r, f, n) => { rez.push(path.join(r, f.name)); n() });
-        walker.on("end", () => callb(rez.map((p) => { return { path: path2local(p) } })))
+        walker.on("file", (r, f, n) => { rez.push( {"path" : path.join(r, f.name) , "stats" : fs.statSync(path.join(r, f.name))} ) ; n() });
+        walker.on("end", () => callb(rez.map((p) => { return { path: path2local(p.path) , mtime: p.stats.mtime , mtimeMs: p.stats.mtimeMs } })));
     }
 }
 /**

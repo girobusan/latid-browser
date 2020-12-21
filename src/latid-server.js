@@ -14,6 +14,9 @@ var config = {
 }
 
 var server = null;
+function getURL(){
+    return "http://" + config.host + ":" + config.port ;
+}
 
 
 function configure(conf) {
@@ -21,11 +24,11 @@ function configure(conf) {
     config = Object.assign(config, conf);
 }
 
-function start() {
+function start(info) {
     server = http.createServer(requestListener);
     API.configure({root: config.root});
     server.listen(config.port, config.host, () => {
-        console.info(`Latid server is running on http://${config.host}:${config.port}`);
+        console.info(`Latid server is running on http://${config.host}:${config.port}` , info);
     });
 
 }
@@ -38,6 +41,7 @@ function stop() {
 }
 
 module.exports = {
+    "getURL" : getURL,
     "configure": configure,
     "start": start,
     "stop": stop
