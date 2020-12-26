@@ -9,7 +9,7 @@ Electron app to preview and edit sites, made with [Latid static site generator](
 Install
 -------
 
-Download release for your platform. Tested on Mac and GNU/Linux.
+Download release for your platform (soon!). Tested on Mac and GNU/Linux.
 
 Usage
 -----
