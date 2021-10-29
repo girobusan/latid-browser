@@ -1,7 +1,7 @@
 {
   "name": "latid_browser",
   "productName": "latid_browser",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
   "repository": {"url": "@github:girobusan/latid-browser.git"},
@@ -35,7 +35,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "icons/latid",
+        "icon": "icons/v2/latid_app_icon_2.png",
         "executableName": "latid_browser",
         "platform": [
           "darvin",
