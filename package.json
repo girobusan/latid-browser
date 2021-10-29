@@ -47,7 +47,8 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "latid-browser"
+            "name": "latid-browser",
+            "icon" : "icons/latid-browser.ico"
           }
         },
         {
