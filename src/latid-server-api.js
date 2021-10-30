@@ -1,6 +1,7 @@
 const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require("path");
+const posixPath = path.posix;
 var walk = require('walk');
 //const querystring = require('querystring');
 //function (res, point , params , method)
@@ -40,7 +41,7 @@ const APIHandlers = {
             //make dirs for copying
             let pathparts = path.parse(t);
             //we have to do SYNC
-            fs.mkdirSync(path.join(pathparts.root, pathparts.dir), { recursive: true });
+            fs.mkdirSync(path.join( pathparts.dir), { recursive: true });
             //copy
 
             fsp.copyFile(fr, t)
@@ -59,7 +60,9 @@ const APIHandlers = {
         //console.log("Write to:" , where); 
         //create dirs
         let wparsed = path.parse(where);
-        fs.mkdirSync(path.join(wparsed.root, wparsed.dir), { recursive: true })
+        //console.log("About to mkdir" , path.join(wparsed.root , wparsed.dir));
+        //console.log(where , wparsed);
+        fs.mkdirSync(path.join( wparsed.dir), { recursive: true })
 
         fsp.writeFile(where, data, 'binary')
             .then(callb("Written"))
@@ -82,7 +85,7 @@ const APIHandlers = {
 
         let rez = [];
         let walker = walk.walk(dir);
-        walker.on("file", (r, f, n) => { rez.push( {"path" : path.join(r, f.name) , "stats" : fs.statSync(path.join(r, f.name))} ) ; n() });
+        walker.on("file", (r, f, n) => { rez.push( {"path" : path.join(r, f.name).replace(/\\/g , "/") , "stats" : fs.statSync(path.join(r, f.name))} ) ; n() });
         walker.on("end", () => callb(rez.map((p) => { return { path: path2local(p.path) , mtime: p.stats.mtime , mtimeMs: p.stats.mtimeMs } })));
     }
 }
