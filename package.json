@@ -4,7 +4,9 @@
   "version": "1.0.7",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
-  "repository": {"url": "@github:girobusan/latid-browser.git"},
+  "repository": {
+    "url": "@github:girobusan/latid-browser.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
     "start": "electron-forge start",
@@ -48,7 +50,7 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "latid-browser",
-            "icon" : "icons/latid-browser.ico"
+            "icon": "icons/v2/latid_app_icon_2.ico"
           }
         },
         {
@@ -59,7 +61,7 @@
           "name": "@electron-forge/maker-dmg",
           "config": {
             "background": "assets/dmg.png",
-            "icon" : "icons/latid.icns",
+            "icon": "icons/latid.icns",
             "owerwrite": true,
             "additionalDMGOptions": {
               "window": {
@@ -78,10 +80,12 @@
           "name": "@electron-forge/maker-deb",
           "config": {
             "name": "latid-browser",
-            "options":{
-              "categories" : ["Development" , "Network"],
-              "icon" : "icons/latid.png"
-
+            "options": {
+              "categories": [
+                "Development",
+                "Network"
+              ],
+              "icon": "icons/latid.png"
             },
             "platforms": [
               "linux"
