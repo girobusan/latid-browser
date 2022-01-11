@@ -1,7 +1,7 @@
 {
   "name": "latid_browser",
   "productName": "latid_browser",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
   "repository": {
