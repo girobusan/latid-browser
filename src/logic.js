@@ -1,3 +1,4 @@
+const TOML = require('@iarna/toml');
 const fs = require('fs');
 const path = require("path");
 const { dialog } = require('electron').remote;
@@ -37,11 +38,23 @@ const ipc = electron.ipcRenderer;
   var loadSite = function (locp) {
 
     console.log("Loading site", locp);
+    var settings = null;
 
-    if (fs.existsSync(locp) && fs.existsSync(path.join(locp, "_config/settings.json"))) {
+    if (fs.existsSync(locp) && fs.existsSync(path.join(locp, "_config/settings.toml"))) {
+      console.log("Loading TOML settings file...");
+      settings = TOML.parse(fs.readFileSync(path.join(locp, "_config/settings.toml")));
+    }else if(fs.existsSync(locp) && fs.existsSync(path.join(locp, "_config/settings.json"))){
+      console.error("Looks like you're using settings.json. Please, consider to convert it to TOML")
+      settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
+    }
+
+    console.log("Just before if we have" , settings)
+    
+
+    if (settings) {
       //get site info
       try {
-        var settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
+        // var settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
         //console.log(settings);
         var title = settings.site.title;
         if (settings.publish && settings.publish.command) {
