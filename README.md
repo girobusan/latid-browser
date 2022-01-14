@@ -10,7 +10,7 @@ Install
 Download release for your platform, use regular install procedure.
 
 | Linux                | Mac                                                 | Win                          |
-| -------              | ------                                              | ----------                   |
+|----------------------|-----------------------------------------------------|------------------------------|
 | Install .deb package | Mount .dmg, drop Latid to  your Applications folder | Unpack and launch setup file |
 
 <br />
