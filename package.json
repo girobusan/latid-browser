@@ -1,7 +1,7 @@
 {
   "name": "latid_browser",
   "productName": "latid_browser",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Browser for Latid sites.",
   "main": "src/main.js",
   "repository": {
@@ -23,7 +23,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "electron": "8.2.0"
+    "electron": ">=11.5.0"
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",

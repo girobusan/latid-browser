@@ -30,6 +30,7 @@ function createWindow() {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       sandbox: false,
+      enableRemoteModule: true
 
     }
   });
@@ -166,6 +167,7 @@ ipc.on('browse', function (e, a) {
         nodeIntegration: true,
         nodeIntegrationInWorker: true,
         sandbox: false,
+        enableRemoteModule: true
 
       }
     });
