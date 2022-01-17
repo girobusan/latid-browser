@@ -12,13 +12,27 @@ body, html{
   padding: 32px;
   text-align: center;
   width: 600px;
+  box-sizing: border-box;
   h2{
     font-size: 36px;
     font-weight: bold;
-    margin: 24px;
+    margin: 0;
+    margin-bottom: 12px;
   }
-  p{
+  p.info{
     font-size: 24px;
-    margin: 0 0 24px 0;
+    margin: 0 0 12px 0;
+  }
+  .tech{
+    ul{
+      all: unset;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 12px;
+      ;
+      li{
+        display: block;
+      }
+    }
   }
 }

@@ -104,7 +104,7 @@ const { showInfo } = require('./info.js');
       //minus button
       let minus = document.createElement("div");
       minus.setAttribute("class", "store remove");
-      minus.innerHTML = "×";
+      minus.innerHTML = " ";
       minus.addEventListener("click", function (evt) {
         
         store.remove(e.key);

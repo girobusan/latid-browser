@@ -2,13 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>latod-browser</title>
+  <title>info</title>
   <link rel='stylesheet' href='info.css'>
 </head>
 <body>
   <div id="container">
     <h2>Latid browser</h2>
     <p id="info">v1.0.9</p>
+    <img src = "latid-info-picture.png">
+        <small class="tech">
+            <ul>
+                <li>Node:
+                <strong>
+                  <script>document.write(process.versions.node || 10)</script>
+                </strong>
+                 </li>
+                <li>Chrome:
+                <strong>
+                  <script>document.write(process.versions.chrome|| 10)</script>
+                </strong>
+                </li>
+                <li>Electron:
+                <strong>
+                  <script>document.write(process.versions.electron|| 10)</script>
+                </strong>
+                </li>
+            </ul>
+        </small>
   </div>
 </body>
 </html>

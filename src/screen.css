@@ -132,17 +132,19 @@ body {
 #saved_sites .remove {
   text-align: center;
   float: right;
-  width: 1rem;
-  height: 1rem;
+  width: 16px;
+  height: 16px;
   line-height: 1.1rem;
   font-size: 1.2rem;
-  background-color: #db8b40;
+  background-image: url(close-button.svg);
+  background-color: #F57900;
   border-radius: 4px;
   font-weight: normal;
   cursor: pointer;
   color: white;
 }
 #saved_sites .remove:hover {
+  background-image: url(close-button-hl.svg);
   background-color: red;
   color: white;
   font-weight: bold;
