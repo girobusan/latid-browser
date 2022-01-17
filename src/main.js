@@ -1,5 +1,6 @@
 const { shell, app, BrowserWindow, Menu, BrowserView, MenuItem, } = require('electron');
 const ipc = require('electron').ipcMain;
+const { showInfo } = require('./info.js');
 //const fs = require('fs');
 //const path = require("path");
 const child_process = require('child_process');
@@ -30,7 +31,8 @@ function createWindow() {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       sandbox: false,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false,
 
     }
   });
@@ -39,7 +41,7 @@ function createWindow() {
   //build menu
   menu = Menu.buildFromTemplate([
     {
-      label: 'Latid browser',
+      label: 'Browser',
       submenu: [
         {
           label: 'Site chooser',
@@ -57,6 +59,12 @@ function createWindow() {
           label: 'App developer tools (window)',
           click() { win.webContents.openDevTools({mode: "detach"}); },
           accelerator: 'CmdOrCtrl+D'
+
+        },
+        {
+          label: 'About',
+          click() {showInfo(win)},
+          // accelerator: 'CmdOrCtrl+D'
 
         },
         { type: 'separator' },

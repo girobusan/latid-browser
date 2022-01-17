@@ -1,9 +1,10 @@
 const TOML = require('@iarna/toml');
 const fs = require('fs');
 const path = require("path");
-const { dialog } = require('electron').remote;
+const { dialog } = require('electron');
 const electron = require("electron")
 const ipc = electron.ipcRenderer;
+const { showInfo } = require('./info.js');
 
 //first steps, hiding excess symbols
 (function () {
@@ -21,6 +22,7 @@ const ipc = electron.ipcRenderer;
       }
     }
     this.remove = function (k) {
+     console.log("Remove" , k);
       s.removeItem(k)
     }
 
@@ -103,7 +105,8 @@ const ipc = electron.ipcRenderer;
       let minus = document.createElement("div");
       minus.setAttribute("class", "store remove");
       minus.innerHTML = "×";
-      minus.addEventListener("click", function (e) {
+      minus.addEventListener("click", function (evt) {
+        
         store.remove(e.key);
         row.remove();
       });
