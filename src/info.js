@@ -9,7 +9,7 @@ function showInfo(parentWin){
        show: false,
        width: 600,
        height: 400,
-       // useContentSize: true,
+       useContentSize: true,
        resizable: false,
        minimizable: false,
        maximizable: false,
