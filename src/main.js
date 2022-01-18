@@ -81,6 +81,7 @@ function createWindow() {
         { type: 'separator' },
         {
           label: 'Quit', click() {
+            serv.stop();
             app.quit()
           },
           accelerator: 'CmdOrCtrl+Q'
