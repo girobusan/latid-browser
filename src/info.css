@@ -17,11 +17,12 @@ body, html {
   font-size: 36px;
   font-weight: bold;
   margin: 0;
-  margin-bottom: 12px;
+  margin-bottom: 2px;
 }
-#container p.info {
+#container p#info {
   font-size: 24px;
-  margin: 0 0 12px 0;
+  margin: 0;
+  margin-bottom: 12px;
 }
 #container .tech ul {
   all: unset;
