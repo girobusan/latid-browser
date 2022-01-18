@@ -11,8 +11,9 @@ body{
 #toolbox{
     box-sizing: border-box;
     background-color: black;
-    border-bottom: 1px solid $light;
-    color: $light;
+    // border-bottom: 1px solid $light;
+    // color: darken( $light , 40%);
+    color: #555;
     height:32px;
     font-size: 14px;
     

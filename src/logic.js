@@ -1,10 +1,15 @@
 const TOML = require('@iarna/toml');
 const fs = require('fs');
 const path = require("path");
-const { dialog } = require('electron');
-const electron = require("electron")
+const electron = require("electron");
+// const { dialog } = require('electron');
+// const dialog = require('@electron/remote').dialog 
 const ipc = electron.ipcRenderer;
-const { showInfo } = require('./info.js');
+// const { showInfo } = require('./info.js');
+// const dialog =electronRemote.dialog;
+console.log("FS" , fs);
+console.log("electron" , electron);
+// console.log("dialog" , dialog);
 
 //first steps, hiding excess symbols
 (function () {
@@ -50,7 +55,7 @@ const { showInfo } = require('./info.js');
       settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
     }
 
-    console.log("Just before if we have" , settings)
+    // console.log("Just before if we have" , settings)
     
 
     if (settings) {
@@ -87,8 +92,10 @@ const { showInfo } = require('./info.js');
 
   window.addEventListener("DOMContentLoaded", function () {
     //show saved sites
+    console.log("Prepare!");
     let saved_items_table = document.getElementById("saved_sites");
     store.items().forEach(function (e) {
+    console.log("Store items");
       let row = document.createElement("div");
       row.classList.add("site");
       //run button
@@ -116,20 +123,19 @@ const { showInfo } = require('./info.js');
     ///button for load site from FS
     let b = document.getElementById("main_button");
     b.addEventListener("click", function () {
-      let p = dialog.showOpenDialog({
-        properties: ['openDirectory']
-      }).then(function (r) {
-        //init server
-        if (r.filePaths.length == 0) {
-          return;
-        }
-        loadSite(r.filePaths[0]);
+      // console.log("Window from click handler" , window);
+      let selectDir = ipc.sendSync('select_site_dir' , {yes:'ok'});
+      console.log("Reply" , selectDir);
+      if(selectDir){
+         loadSite(selectDir);
       }
-      );
     });
     //status bar logic
     let tb = document.getElementById("adress");
     let shade = document.getElementById("shade");
+    ipc.on('select_site_dir' , function(m){
+        console.log(m);
+    })
     ipc.on('status', function (e, a) {
       //console.log("Status to" , a)
       if(a.text){

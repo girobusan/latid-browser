@@ -7,8 +7,7 @@ body {
 #toolbox {
   box-sizing: border-box;
   background-color: black;
-  border-bottom: 1px solid #3ED9E3;
-  color: #3ED9E3;
+  color: #555;
   height: 32px;
   font-size: 14px;
   padding-top: 8px;

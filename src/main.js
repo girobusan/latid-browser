@@ -1,11 +1,12 @@
-const { shell, app, BrowserWindow, Menu, BrowserView, MenuItem, } = require('electron');
+const { shell, app, BrowserWindow, Menu, BrowserView, MenuItem, dialog } = require('electron');
 const ipc = require('electron').ipcMain;
 const { showInfo } = require('./info.js');
 //const fs = require('fs');
-//const path = require("path");
+const path = require("path");
 const child_process = require('child_process');
 var browser; //browser view
 
+// console.log("Dialog in main" , dialog)
 
 //const { app } = require('electron');
 
@@ -33,9 +34,11 @@ function createWindow() {
       sandbox: false,
       enableRemoteModule: true,
       contextIsolation: false,
-
-    }
+        }
+    
   });
+
+
   // и загрузить index.html приложения.
   win.loadFile('src/index.html');
   //build menu
@@ -45,7 +48,15 @@ function createWindow() {
       submenu: [
         {
           label: 'Site chooser',
-          click() { if (browser) { win.removeBrowserView(browser) ; browser.destroy() ; browser=null}; win.webContents.send('status' , {text: ""});win.webContents.send('title' , {text: ""});},
+          click() { if (browser) { 
+          win.removeBrowserView(browser) ; 
+          browser = null;
+          serv.stop();
+          // browser.destroy() ; 
+          }; 
+          win.webContents.send('status' , {text: ""});
+          win.webContents.send('title' , {text: ""});
+          },
           accelerator: 'CmdOrCtrl+R'
 
         },
@@ -121,6 +132,15 @@ ipc.on('server', function (event, arg) {
     serv.configure(arg);
     serv.start();
   }
+})
+
+ipc.on('select_site_dir' , function(msg){
+  
+       let r = dialog.showOpenDialogSync({
+        properties: ['openDirectory']
+      });
+       // console.log(msg);
+      msg.returnValue = r ? r[0] : "";
 })
 
 ipc.on('publish', function (event, arg) {

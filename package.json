@@ -26,6 +26,7 @@
     "electron": ">=11.5.0"
   },
   "dependencies": {
+    "@electron/remote": "^2.0.1",
     "@iarna/toml": "^2.2.5",
     "electron-compile": "^6.4.4",
     "electron-default-menu": "^1.0.2",
