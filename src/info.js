@@ -3,7 +3,7 @@ const { BrowserWindow } = require('electron');
 function showInfo(parentWin){
   console.info("Showing info");
   const modal = new BrowserWindow({
-       // parent: parentWin,
+       parent: parentWin,
        modal: true,
        backgroundColor: '#00A1AB',
        show: false,
