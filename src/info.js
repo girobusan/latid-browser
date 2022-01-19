@@ -1,8 +1,8 @@
 const { BrowserWindow } = require('electron');
-
+var modal;
 function showInfo(parentWin){
   console.info("Showing info");
-  const modal = new BrowserWindow({
+  modal = new BrowserWindow({
        parent: parentWin,
        modal: true,
        backgroundColor: '#00A1AB',
@@ -38,4 +38,16 @@ function showInfo(parentWin){
 
 }
 
-module.exports = {'showInfo' : showInfo}
+function hideInfo(){
+  if(modal){
+   modal.close();
+   modal = null;
+  }
+}
+
+
+
+module.exports = {
+'showInfo' : showInfo,
+'hideInfo' : hideInfo
+}

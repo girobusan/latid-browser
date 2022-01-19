@@ -70,17 +70,23 @@ const serveFile = function (p, res) {
     //if not exist, not found
     if (!fs.existsSync(localpath)) {
         res.writeHead(404);
-        res.end("Not found:", localpath);
+        res.end("Not found: " + localpath);
         return;
     }
     //serve
     let mtype = mime.lookup(localpath) || "application/octet-stream";
-    fsp.readFile(localpath)
-        .then(c => {
-            res.setHeader("Content-Type", mtype);
-            res.writeHead(200);
-            res.end(c);
-        })
+
+    let fcont = fs.readFileSync(localpath);
+    res.setHeader("Content-Type", mtype);
+    res.writeHead(200);
+    res.end(fcont);
+
+    // fsp.readFile(localpath)
+    //     .then(c => {
+    //         res.setHeader("Content-Type", mtype);
+    //         res.writeHead(200);
+    //         res.end(c);
+    //     })
 };
 
 
