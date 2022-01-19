@@ -1,6 +1,6 @@
 const { shell, app, BrowserWindow, Menu, BrowserView, MenuItem, dialog } = require('electron');
 const ipc = require('electron').ipcMain;
-const { showInfo } = require('./info.js');
+const { showInfo , hideInfo} = require('./info.js');
 //const fs = require('fs');
 const path = require("path");
 const child_process = require('child_process');
@@ -133,6 +133,10 @@ ipc.on('server', function (event, arg) {
     serv.configure(arg);
     serv.start();
   }
+})
+
+ipc.on('hide_info' , function(msg){
+    hideInfo();
 })
 
 ipc.on('select_site_dir' , function(msg){

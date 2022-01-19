@@ -3,11 +3,6 @@ const fs = require('fs');
 const path = require("path");
 const electron = require("electron");
 const ipc = electron.ipcRenderer;
-// const { showInfo } = require('./info.js');
-// const dialog =electronRemote.dialog;
-console.log("FS" , fs);
-console.log("electron" , electron);
-// console.log("dialog" , dialog);
 
 //first steps, hiding excess symbols
 (function () {

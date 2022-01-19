@@ -5,6 +5,14 @@
   <title>info</title>
   <link rel='stylesheet' href='info.css'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    const electron = require("electron");
+    const ipc = electron.ipcRenderer;
+    function closeWindow(){
+      console.log("close info");
+      ipc.send('hide_info');
+    }
+  </script>
 </head>
 <body>
   <div id="container">
@@ -30,6 +38,7 @@
                 </li>
             </ul>
         </small>
+        <a id="close_button" onClick='closeWindow()'>Close</a>
   </div>
 </body>
 </html>

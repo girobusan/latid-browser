@@ -8,7 +8,7 @@ body, html {
 }
 
 #container {
-  padding: 32px;
+  padding: 24px;
   text-align: center;
   width: 600px;
   box-sizing: border-box;
@@ -17,21 +17,34 @@ body, html {
   font-size: 36px;
   font-weight: bold;
   margin: 0;
-  margin-bottom: 2px;
 }
 #container p#info {
   font-size: 24px;
   margin: 0;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 #container .tech ul {
   all: unset;
   display: flex;
   justify-content: space-around;
-  margin-top: 12px;
+  margin-top: -8px;
+  margin-bottom: 24px;
 }
 #container .tech ul li {
   display: block;
+}
+
+#close_button {
+  cursor: pointer;
+  background-color: #004145;
+  color: #00A1AB;
+  display: inline-block;
+  letter-spacing: 0.1em;
+  padding: 8px 24px;
+  border-radius: 6px;
+}
+#close_button:hover {
+  background-color: black;
 }
 
 /*# sourceMappingURL=info.css.map */
