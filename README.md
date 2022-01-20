@@ -15,7 +15,7 @@ Download release for your platform, use regular install procedure.
 
 <br />
 
-![Screenshot](latid-browser-screen-1.0.9.png)
+![Screenshot](assets/latid-browser-screen-1.0.9.png)
 
 Usage
 -----
