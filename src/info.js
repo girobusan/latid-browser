@@ -17,6 +17,7 @@ function showInfo(parentWin){
        fullscreenable: false,
        skipTaskbar: true,
        autoHideMenuBar: true,
+       titleBarStyle: "hidden",
 
        webPreferences:{
          nodeIntegration: true,
