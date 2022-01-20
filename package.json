@@ -20,7 +20,9 @@
     "@electron-forge/cli": "^6.0.0-beta.63",
     "@electron-forge/maker-deb": "^6.0.0-beta.63",
     "@electron-forge/maker-dmg": "^6.0.0-beta.63",
+    "@electron-forge/maker-flatpak": "^6.0.0-beta.63",
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-snap": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "electron": ">=11.5.0"
@@ -56,8 +58,7 @@
           }
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": "all"
+          "name": "@electron-forge/maker-zip"
         },
         {
           "name": "@electron-forge/maker-dmg",

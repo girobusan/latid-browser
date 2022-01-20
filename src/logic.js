@@ -85,10 +85,10 @@ const ipc = electron.ipcRenderer;
 
   window.addEventListener("DOMContentLoaded", function () {
     //show saved sites
-    console.log("Prepare!");
+    // console.log("Prepare!");
     let saved_items_table = document.getElementById("saved_sites");
     store.items().forEach(function (e) {
-    console.log("Store items");
+    // console.log("Store items");
       let row = document.createElement("div");
       row.classList.add("site");
       //run button
