@@ -44,7 +44,12 @@ const ipc = electron.ipcRenderer;
       console.log("Loading TOML settings file...");
       settings = TOML.parse(fs.readFileSync(path.join(locp, "_config/settings.toml")));
     }else if(fs.existsSync(locp) && fs.existsSync(path.join(locp, "_config/settings.json"))){
-      console.error("Looks like you're using settings.json. Please, consider to convert it to TOML")
+      console.error("Looks like you're using settings.json. Please, consider to convert it to TOML");
+      ipc.send( 'show_dialog' ,{
+       text: `Looks like this site uses settings file in JSON format. 
+       Please, consider to convert it to TOML` 
+       })
+       ;
       settings = JSON.parse(fs.readFileSync(path.join(locp, "_config/settings.json")));
     }
 
@@ -65,6 +70,11 @@ const ipc = electron.ipcRenderer;
       } catch (err) {
         console.error("Can not load settings from", path.join(locp, "_config/settings.json"));
         console.error(err);
+        ipc.send('show_dialog' , {
+           text: "Can not load settings file",
+           type: "error",
+           detail: path.join(locp, "_config/settings.json")
+        })
         return false
       }
       //check storage (save if new site)
@@ -79,6 +89,11 @@ const ipc = electron.ipcRenderer;
       return true;
     } else {
       console.error("Required files do not exist")
+
+        ipc.send('show_dialog' , {
+           text: "Settings file doesn't exist in this directory.",
+           type: "error",
+        })
       return false
     }
   }

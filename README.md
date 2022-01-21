@@ -7,11 +7,15 @@ Now at early stages of development, but usable. Works on Linux, Mac and Windows.
 
 Install
 -------
-Download release for your platform, use regular install procedure.
 
-| Linux                | Mac                                                 | Win                          |
-|----------------------|-----------------------------------------------------|------------------------------|
-| Install .deb package | Mount .dmg, drop Latid to  your Applications folder | Unpack and launch setup file |
+#### Linux                
+Install .deb package or just unzip and run.
+
+#### Mac
+Mount .dmg, drop Latid to  your Applications folder. 
+
+#### Win
+Unpack and launch setup file or unzip executable and run.
 
 <br />
 

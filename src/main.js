@@ -147,6 +147,20 @@ ipc.on('select_site_dir' , function(msg){
        // console.log(msg);
       msg.returnValue = r ? r[0] : "";
 })
+;
+
+ipc.on('show_dialog' , function(msg,arg){
+   console.log("Show dialog...");
+   dialog.showMessageBox(win, 
+     {
+        message: arg.text || "No text specified",
+        type: arg.type || "info",
+        title: arg.title || "info",
+        detail: arg.detail || "",
+
+         
+     })
+})
 
 ipc.on('publish', function (event, arg) {
   let pm = menu.getMenuItemById("publish");
