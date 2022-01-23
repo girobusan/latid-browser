@@ -1,8 +1,8 @@
 
 # Latid-browser <img src='icons/latid_web_icon_120px.png' align='right' />
 
-Electron app to preview and edit sites, made with [Latid static site generator](https://github.com/girobusan/latid). 
-Now at early stages of development, but usable. Works on Linux, Mac and Windows.
+Companion app to preview and edit sites, made with [Latid static site generator](https://github.com/girobusan/latid). 
+Now at early stages of development, but usable. Works on Linux, Mac and Windows. Please, note: this app is NOT required for working with Latid, it's just a convenience tool.
 
 
 Install

@@ -71,7 +71,8 @@ const ipc = electron.ipcRenderer;
         console.error("Can not load settings from", path.join(locp, "_config/settings.json"));
         console.error(err);
         ipc.send('show_dialog' , {
-           text: "Can not load settings file",
+           text: `Settings file corrupted or malformed, see App developer tools
+           for more info`,
            type: "error",
            detail: path.join(locp, "_config/settings.json")
         })
@@ -80,7 +81,7 @@ const ipc = electron.ipcRenderer;
       //check storage (save if new site)
       store.check(title, locp);
       ipc.send('server', { "command": "start", "root": locp });
-      console.log("go to!~");
+      // console.log("go to!~");
       setTimeout(function () {
         console.info("show page...");
         ipc.send("browse", { "url": "http://localhost:9999" });
@@ -133,7 +134,6 @@ const ipc = electron.ipcRenderer;
     b.addEventListener("click", function () {
       // console.log("Window from click handler" , window);
       let selectDir = ipc.sendSync('select_site_dir' , {yes:'ok'});
-      console.log("Reply" , selectDir);
       if(selectDir){
          loadSite(selectDir);
       }
