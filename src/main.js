@@ -27,7 +27,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#00A1AB',
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
@@ -176,10 +176,18 @@ ipc.on('publish', function (event, arg) {
       if (!Array.isArray(args)) {
         args = [args];
       }
-      let pp = child_process.spawn(arg.command, args, { cwd: arg.cwd });
-      pp.on("exit", finfn);
-      pp.on("close", finfn);
-      pp.on("error", (e) => console.error("error", e))
+      args = args.join(" ");
+      child_process.exec(arg.command +" "+ args, { cwd: arg.cwd } ,
+        (error,stdout,stderr)=>{
+          if(error){
+             console.error("Publish error" , error);
+             return;
+
+          }
+          finfn();
+          console.info(stdout,stderr);
+        }
+      );
     }
 
   } else {
